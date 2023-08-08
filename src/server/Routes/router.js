@@ -2,7 +2,6 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
-const jwtSecretKey = process.env.JWT_SECRET_KEY; // Make sure you set this environment variable
 const { User, Product, Article } = require('../Model/model');
 const sendVerificationEmail = require('../Email_verification');
 const router = express.Router();
@@ -66,12 +65,20 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
 
-    res.json({ message: 'Login successful' });
+    // If email and password are valid, generate a JWT token
+    const token = jwt.sign({ userId: user._id }, 'your-secret-key', { expiresIn: '1h' });
+
+    // Respond with the token
+    res.json({ token, message: 'Login successful' });
   } catch (error) {
     res.status(500).json({ error: 'Error finding user' });
   }
 });
-
+router.post('/logout', async (req, res) => {
+  // You can add any additional logout logic here if needed
+  // For example, you can invalidate the JWT token on the server-side
+  res.json({ message: 'Logout successful' });
+});
 router.get('/users', (req, res) => {
   User.find()
   .then((users) => {
@@ -118,10 +125,10 @@ router.get('/products', (req, res) => {
 
 router.post('/api/articles', async (req, res) => {
   try {
-    const { title, description, link,image } = req.body;
+    const { title, description, link, image } = req.body;
 
     // Create a new article using the provided data
-    const article = new Article({ title, description, link,image });
+    const article = new Article({ title, description, link, image });
 
     // Save the article to the database
     await article.save();
@@ -140,5 +147,20 @@ router.get('/api/articles', async (req, res) => {
     res.status(500).json({ error: 'An error occurred while fetching saved articles.' });
   }
 });
+router.delete('/api/articles/:id', async (req, res) => {
+  const { articleId } = req.params;
+  console.log('Received articleId:', articleId); // Check the articleId value in the console
+
+  try {
+    // Perform the delete operation in your database using the articleId
+    await Article.deleteOne({ _id: articleId });
+
+    res.json({ message: 'Article successfully unsaved' });
+  } catch (error) {
+    console.error('Unsave article error:', error);
+    res.status(500).json({ error: 'An error occurred while unsaving the article' });
+  }
+});
+
 
 module.exports = router;

@@ -19,24 +19,23 @@ const SavedArticles = () => {
   }, []);
 
   return (
-    <div>
+    <div className="saved-articles-container">
       <h2>Saved Articles</h2>
 
-      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+      <div className="grid-container">
         {savedArticles.map((article) => (
           <div key={article.link} className="card" style={{ width: '18rem', marginBottom: '20px' }}>
             <img src={article.image} className="card-img-top" alt="..." />
             <div className="card-body">
               <h5 className="card-title">{article.title}</h5>
-              <p className="card-text" style={{textAlign:"left"}}>{article.description && article.description.slice(0, 150)}.....</p>
+              <p className="card-text" style={{ textAlign: "left" }}>{article.description && article.description.slice(0, 150)}.....</p>
             </div>
             <div className="card-body">
               <a href={article.link} className="hero-btn1">Read more</a>
-              
             </div>
           </div>
         ))}
-      </div>``
+      </div>
     </div>
   );
 };

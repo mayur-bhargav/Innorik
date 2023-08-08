@@ -10,24 +10,15 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
-  const checkLoginStatus = async () => {
-    try {
-      const response = await axios.get("http://localhost:5000/signup", {
-        withCredentials: true,
-      });
-      setIsLoggedIn(response.data.isLoggedIn);
-    } catch (error) {
-      console.error("Error checking login status:", error);
-    }
-  };
+  
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-
+    setError(""); // Clear previous error
+  
     try {
       const response = await axios.post(
         "http://localhost:5000/login",
@@ -40,35 +31,33 @@ const LoginForm = () => {
       const token = response.data.token;
       // Store the token in local storage
       localStorage.setItem("jwtToken", token);
+      console.log( token)
       // Perform any other actions after successful login
       setIsLoading(false);
       console.log("Server response:", response.data);
       setEmail("");
       setPassword("");
       setError("");
-      checkLoginStatus();
       navigate("/");
     } catch (error) {
       if (error.response && error.response.status === 401) {
         setError("Invalid email or password");
       } else {
+        setError("An error occurred while logging in"); // Display a generic error message
         console.error("Error logging in:", error.message);
       }
       setIsLoading(false);
     }
   };
-
   const handleLogout = async () => {
     try {
-      await axios.post("https://blood-bank-mzgj.onrender.com/logout", null, {
-        withCredentials: true,
-      });
-      setIsLoggedIn(false);
+      await axios.post("http://localhost:5000/logout");
+      localStorage.removeItem("jwtToken");
+      navigate("/login");
     } catch (error) {
-      console.error("Error logging out:", error);
+      console.error("Logout error:", error);
     }
   };
-
   return (
     <>
       <div className="body">
@@ -98,10 +87,10 @@ const LoginForm = () => {
 
               {/* <button disabled={isLoading} type="submit">{isLoading ? <LoadingSpinner /> : <a>Log In</a>}</button> */}
               <a>{isLoading ? <LoadingSpinner /> : <button>Log In</button>}</a>
-              <Link to="/signup">
-                <h5>
+              <Link to="/register">
+                <h6>
                   Don't have an Account?<a>SignUp</a>
-                </h5>
+                </h6>
               </Link>
             </form>
           </div>
