@@ -19,7 +19,7 @@ function Home() {
   };
   const handleLogout = async () => {
     try {
-      await axios.post("http://localhost:5000/logout");
+      await axios.post("https://innorik.onrender.com/logout");
       localStorage.removeItem("jwtToken");
       console.log("Logout successful");
       setIsAuthenticated(false); // Update authentication status

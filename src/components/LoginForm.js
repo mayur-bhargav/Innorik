@@ -21,7 +21,7 @@ const LoginForm = () => {
    
     try {
       const response = await axios.post(
-        "http://localhost:5000/login",
+        "https://innorik.onrender.com/login",
         {
           email,
           password, 
@@ -61,7 +61,7 @@ const LoginForm = () => {
   };
   const handleLogout = async () => {
     try {
-      await axios.post("http://localhost:5000/logout");
+      await axios.post("https://innorik.onrender.com/logout");
       localStorage.removeItem("jwtToken");
       navigate("/login");
     } catch (error) {

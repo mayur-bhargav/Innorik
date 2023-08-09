@@ -16,7 +16,7 @@ const SignupForm = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const response = await axios.post('http://localhost:5000/signup', {
+      const response = await axios.post('https://innorik.onrender.com/signup', {
         name,
         email,
         password,
