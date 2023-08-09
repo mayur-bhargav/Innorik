@@ -3,8 +3,8 @@ import "./Login.css";
 import axios from "axios";
 import LoadingSpinner from "./loader";
 import { Link, useNavigate } from "react-router-dom";
-import Background from "./volunteer.jpg";
-
+// import Background from "./volunteer.jpg";
+import { toast,ToastContainer } from "react-toastify";
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,15 +18,21 @@ const LoginForm = () => {
     e.preventDefault();
     setIsLoading(true);
     setError(""); // Clear previous error
-  
+   
     try {
       const response = await axios.post(
         "http://localhost:5000/login",
         {
           email,
-          password,
+          password, 
         }
       );
+      if (response.data.isVerified = false) {
+        console.log(response.data.isVerified)
+        toast.error("Email not verified"); // Show an error toast
+        setIsLoading(false);
+        return;
+      }
       // Assuming the server responds with a token
       const token = response.data.token;
       // Store the token in local storage
@@ -42,7 +48,11 @@ const LoginForm = () => {
     } catch (error) {
       if (error.response && error.response.status === 401) {
         setError("Invalid email or password");
-      } else {
+      } else if (error.response && error.response.status === 400) {
+        toast.error("Email not verified"); // Display a generic error message
+      console.error("Error logging in:", error.message);
+    }
+      else{
         setError("An error occurred while logging in"); // Display a generic error message
         console.error("Error logging in:", error.message);
       }
@@ -61,6 +71,18 @@ const LoginForm = () => {
   return (
     <>
       <div className="body">
+      <ToastContainer
+position="top-right"
+autoClose={5000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="light"
+/>
         <div className="main">
           {/* <div className='first'>
             <img src='./volunteer.jpg' />

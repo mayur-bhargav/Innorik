@@ -65,6 +65,11 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
 
+    // Check if the email is verified
+    if (!user.isVerified) {
+      return res.status(400).json({ error: 'Email not verified' });
+    }
+
     // If email and password are valid, generate a JWT token
     const token = jwt.sign({ userId: user._id }, 'your-secret-key', { expiresIn: '1h' });
 
@@ -148,12 +153,26 @@ router.get('/api/articles', async (req, res) => {
   }
 });
 router.delete('/api/articles/:id', async (req, res) => {
-  const { articleId } = req.params;
-  console.log('Received articleId:', articleId); // Check the articleId value in the console
+  const articleId = req.params.id; // Use req.params.id to extract the articleId
+  console.log('Received articleId:', articleId);
 
   try {
     // Perform the delete operation in your database using the articleId
     await Article.deleteOne({ _id: articleId });
+
+    res.json({ message: 'Article successfully unsaved' });
+  } catch (error) {
+    console.error('Unsave article error:', error);
+    res.status(500).json({ error: 'An error occurred while unsaving the article' });
+  }
+});
+router.delete('/api/articles/:id', async (req, res) => {
+  const { id } = req.params; // Corrected syntax to extract articleId
+  console.log('Received articleId:', id);
+
+  try {
+    // Perform the delete operation in your database using the id
+    await Article.deleteOne({ _id: id });
 
     res.json({ message: 'Article successfully unsaved' });
   } catch (error) {

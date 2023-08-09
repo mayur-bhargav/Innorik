@@ -18,6 +18,20 @@ const SavedArticles = () => {
     fetchSavedArticles();
   }, []);
 
+  const handleDeleteArticle = async (articleId) => {
+    try {
+      await axios.delete(`/api/articles/${articleId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+        },
+      });
+      setSavedArticles(savedArticles.filter(saved => saved._id !== articleId));
+    } catch (error) {
+      console.error('Delete article error:', error);
+    }
+  };
+
+
   return (
     <div className="saved-articles-container">
       <h2>Saved Articles</h2>
@@ -32,6 +46,9 @@ const SavedArticles = () => {
             </div>
             <div className="card-body">
               <a href={article.link} className="hero-btn1">Read more</a>
+              <button className="hero-btn1" onClick={() => handleDeleteArticle(article._id)}>
+                  Unsave
+                </button>
             </div>
           </div>
         ))}

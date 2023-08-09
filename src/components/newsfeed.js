@@ -3,9 +3,12 @@ import axios from 'axios';
 import "../App.css";
 import { toast,ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Link, useNavigate } from 'react-router-dom'; 
+
 axios.defaults.baseURL = 'http://localhost:5000';
 
 const NewsFeed = ({ interests }) => {
+  const navigate = useNavigate();
   const [news, setNews] = useState([]);
   const [filteredNews, setFilteredNews] = useState([]);
   const [savedArticles, setSavedArticles] = useState([]);
@@ -54,6 +57,12 @@ const NewsFeed = ({ interests }) => {
   }, [interests, news]);
 
   const handleSaveArticle = async (article) => {
+    const token = localStorage.getItem('jwtToken');
+    if (!token) {
+      // User is not authenticated, redirect to login page
+      navigate.push('/login'); // Change '/login' to your actual login route
+      return;
+    }
     try {
       const token = localStorage.getItem('jwtToken');
       const response = await axios.post('/api/articles', {
@@ -89,18 +98,19 @@ const NewsFeed = ({ interests }) => {
     }
   };
   return (
-  <div><ToastContainer
-    position="top-right"
-    autoClose={5000}
-    hideProgressBar={false}
-    newestOnTop={false}
-    closeOnClick
-    rtl={false}
-    pauseOnFocusLoss
-    draggable
-    pauseOnHover
-    theme="light"
-    />
+    <div>
+    <ToastContainer
+position="top-right"
+autoClose={5000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="light"
+/>
     <div className="grid-container">
       {filteredNews.map((article) => (
         // Check if both image and description are not null before rendering
@@ -113,19 +123,27 @@ const NewsFeed = ({ interests }) => {
             </div>
             <div className="card-body">
               <a href={article.url} className="hero-btn1">Read more</a>
- 
-              {article.isSaved ? (
-  <button className="hero-btn1" onClick={() => handleToggleSave(article)}>
-    Unsave
-  </button>
-) : (
-
-
-  <button className="hero-btn1" onClick={() => handleSaveArticle(article)}>
-    Save
-  </button>
-  
-)}
+              {localStorage.getItem('jwtToken') ? (
+              article.isSaved ? (
+                <button
+                  className="hero-btn1"
+                  onClick={() => handleToggleSave(article)}
+                >
+                  Unsave
+                </button>
+              ) : (
+                <button
+                  className="hero-btn1"
+                  onClick={() => handleSaveArticle(article)}
+                >
+                  Save
+                </button>
+              )
+            ) : (
+              <Link to="/login" className="hero-btn1" >
+                Log in
+              </Link>
+            )}
 
             </div>
           </div>
