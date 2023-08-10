@@ -1,23 +1,21 @@
-const nodemailer = require('nodemailer');
-require('dotenv').config();
+const nodemailer = require("nodemailer");
+require("dotenv").config();
 async function sendVerificationEmail(userEmail, verificationToken, name) {
   const transporter = nodemailer.createTransport({
-    host:'smtp.gmail.com',
-    port:process.env.SMTP_PORT,
-    secure:false,
-    requireTLS:true,
-    service: 'Gmail',
+    host: "smtp.gmail.com",
+    port: process.env.SMTP_PORT,
+    secure: false,
+    requireTLS: true,
+    service: "Gmail",
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
-      
     },
-    
   });
   const mailOptions = {
-    from: 'mayurbhargava026@gmail.com',
+    from: "mayurbhargava026@gmail.com",
     to: userEmail,
-    subject: 'Express News  App',
+    subject: "Express News  App",
     html: `<h1>Hi ${name},</h1>
             <p>You are just a step away from creating your account on Express News App</p>
             <p>To veriy the mail please click on the below:-</p>
@@ -37,9 +35,9 @@ async function sendVerificationEmail(userEmail, verificationToken, name) {
 
   try {
     await transporter.sendMail(mailOptions);
-    console.log('Verification email sent successfully.');
+    console.log("Verification email sent successfully.");
   } catch (error) {
-    console.error('Error sending verification email:', error);
+    console.error("Error sending verification email:", error);
   }
 }
 

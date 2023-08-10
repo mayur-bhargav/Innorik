@@ -1,8 +1,7 @@
-// Interests.js
-import React, { useState } from 'react';
-
+import React from "react";
+import "../App.css";
 const Interests = ({ selectedInterests, onInterestChange }) => {
-  const allInterests = ['all','technology', 'sports', 'politics', 'health'];
+  const allInterests = ["technology", "sports", "politics", "health"];
 
   const handleInterestToggle = (interest) => {
     if (selectedInterests.includes(interest)) {
@@ -13,19 +12,20 @@ const Interests = ({ selectedInterests, onInterestChange }) => {
   };
 
   return (
-    <div>
-      <h2>Select Your Interests</h2>
-      {allInterests.map((interest) => (
-        <label key={interest}>
-          <input
-            type="checkbox"
-            value={interest}
-            onChange={() => handleInterestToggle(interest)}
-            checked={selectedInterests.includes(interest)}
-          />
-          {interest.charAt(0).toUpperCase() + interest.slice(1)}
-        </label>
-      ))}
+    <div className="intrest-articles-container">
+      <div className="interests-container">
+        {allInterests.map((interest) => (
+          <button
+            key={interest}
+            className={`interest-button ${
+              selectedInterests.includes(interest) ? "selected" : ""
+            }`}
+            onClick={() => handleInterestToggle(interest)}
+          >
+            {interest.charAt(0).toUpperCase() + interest.slice(1)}
+          </button>
+        ))}
+      </div>
     </div>
   );
 };

@@ -2,9 +2,18 @@ const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 
-const jwtSecretKey = crypto.randomBytes(32).toString('hex'); // 32 bytes = 256 bits
-console.log('JWT Secret Key:', jwtSecretKey);
+const jwtSecretKey = crypto.randomBytes(32).toString('hex');
 
+async function getRecommendedArticles(userId) {
+  const userInteractions = await Interaction.find({ userId });
+  const articleIds = userInteractions.map((interaction) => interaction.articleId);
+  
+  const recommendedArticles = await Article.find({ _id: { $nin: articleIds } })
+    .sort('-score')
+    .limit(10);
+
+  return recommendedArticles;
+}
 const authMiddleware = async (req, res, next) => {
   const token = req.header('Authorization').replace('Bearer ', '');
 
@@ -47,7 +56,6 @@ const userSchema = new mongoose.Schema({
   },
   verificationToken: String,
 });
-
 const User = mongoose.model('User', userSchema);
 
 const productSchema = new mongoose.Schema({
@@ -55,7 +63,6 @@ const productSchema = new mongoose.Schema({
   price: Number,
   description: String,
 });
-
 const Product = mongoose.model('Product', productSchema);
 
 
@@ -64,8 +71,18 @@ const articleSchema = new mongoose.Schema({
   link:{type: String, required: true },
   image:{type: String, required: true },
   description:{type: String, required: true },
-  // category: { type: String, required: true },
+  content: String,
+  category: String,
+  tags: [String],
 });
-
 const Article = mongoose.model('Article', articleSchema);
-module.exports = { User, Product, Article,authMiddleware  };
+
+const interactionSchema = new mongoose.Schema({
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  articleId: { type: mongoose.Schema.Types.ObjectId, ref: 'Article' },
+  interactionType: String,
+  timestamp: { type: Date, default: Date.now },
+});
+const Interaction= mongoose.model('Interaction', interactionSchema);
+
+module.exports = { User, Product, Article, Interaction, authMiddleware,getRecommendedArticles  };
