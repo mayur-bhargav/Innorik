@@ -5,14 +5,13 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link, useNavigate } from "react-router-dom";
 
-axios.defaults.baseURL = "https://localhost:5000";
+axios.defaults.baseURL = "https://innorik.onrender.com";
 
 const NewsFeed = ({ interests }) => {
   const navigate = useNavigate();
   const [news, setNews] = useState([]);
   const [filteredNews, setFilteredNews] = useState([]);
   const [savedArticles, setSavedArticles] = useState([]);
-
   useEffect(() => {
     async function fetchNews() {
       const apiKey = "122a28fdd165418d917fc4c240832384";
@@ -32,6 +31,23 @@ const NewsFeed = ({ interests }) => {
     }
 
     fetchNews();
+  }, []);
+  useEffect(() => {
+    async function fetchSavedArticles() {
+      try {
+        const response = await axios.get("/api/articles/saved", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+          },
+        });
+
+        setSavedArticles(response.data);
+      } catch (error) {
+        console.error("Error fetching saved articles:", error);
+      }
+    }
+
+    fetchSavedArticles();
   }, []);
 
   useEffect(() => {

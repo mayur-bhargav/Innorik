@@ -29,7 +29,7 @@ const SignupForm = () => {
   const handleSubmit = async (values) => {
     setIsLoading(true);
     try {
-      const response = await axios.post("https://localhost:5000/signup", {
+      const response = await axios.post("http://localhost:5000/signup", {
         name: values.firstName + " " + values.lastName,
         email: values.email,
         password: values.password,
