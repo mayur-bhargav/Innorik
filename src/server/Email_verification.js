@@ -30,7 +30,7 @@ async function sendVerificationEmail(userEmail, verificationToken, name) {
            justify-content: center;
            text-align:center;
            position: relative;
-           cursor: pointer;" href="https://innorik.onrender.com/verify?token=${verificationToken}"><h style="text-align:center">Verify Email</h></a>`,
+           cursor: pointer;" href="https://localhost:5000/verify?token=${verificationToken}"><h style="text-align:center">Verify Email</h></a>`,
   };
 
   try {

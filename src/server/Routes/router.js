@@ -2,9 +2,10 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
-const { User, Product, Article, Interaction } = require("../Model/model");
+const { User, Product, Article } = require("../Model/model");
 const sendVerificationEmail = require("../Email_verification");
 const router = express.Router();
+
 function generateVerificationToken() {
   const token = crypto.randomBytes(32).toString("hex");
   return token;
@@ -14,7 +15,7 @@ router.post("/signup", async (req, res) => {
 
   if (password !== cpassword) {
     return res
-      .status(401)
+      .status(400)
       .json({ error: "Password and Confirm Password do not match" });
   }
 
@@ -74,12 +75,9 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ error: "Email not verified" });
     }
 
-    const token = jwt.sign(
-      { userId: user._id },
-      {
-        expiresIn: "1h",
-      }
-    );
+    const token = jwt.sign({ userId: user._id }, "your-secret-key", {
+      expiresIn: "1h",
+    });
 
     res.json({ token, message: "Login successful" });
   } catch (error) {
@@ -184,33 +182,6 @@ router.delete("/api/articles/:id", async (req, res) => {
     res
       .status(500)
       .json({ error: "An error occurred while unsaving the article" });
-  }
-});
-router.post("/user/:userId/interactions", async (req, res) => {
-  const { userId } = req.params;
-  const { articleId, interactionType } = req.body;
-
-  const interaction = new Interaction({
-    userId,
-    articleId,
-    interactionType,
-  });
-
-  await interaction.save();
-  res.status(201).send("Interaction recorded");
-});
-
-router.get("/user/:userId/recommendations", async (req, res) => {
-  const { userId } = req.params;
-
-  try {
-    const recommendedArticles =
-      await recommendationController.getRecommendedArticles(userId);
-    res.json(recommendedArticles);
-  } catch (error) {
-    res
-      .status(500)
-      .json({ error: "An error occurred while fetching recommendations" });
   }
 });
 

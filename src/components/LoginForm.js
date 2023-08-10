@@ -42,7 +42,7 @@ const LoginForm = () => {
     setIsLoading(true);
     setError("");
     try {
-      const response = await axios.post("https://innorik.onrender.com/login", {
+      const response = await axios.post("http://localhost:5000/login", {
         email: values.email,
         password: values.password,
       });

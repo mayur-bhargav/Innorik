@@ -19,20 +19,24 @@ Clone the repository:
 
 
           git clone https://github.com/mayur-bhargav/Innorik.git
+
 Start Frontend Server
+
           cd Innorik
 
           npm install
 
           npm start
 
-Install dependencies for the backend and frontend:
+Install dependencies for the backend :
 
       cd src
 
       cd server
 
       npm install
+
+Start Backend Server :
 
       nodemon index.js
 
