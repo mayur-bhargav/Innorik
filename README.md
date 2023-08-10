@@ -19,7 +19,7 @@ Clone the repository:
 
 
           git clone https://github.com/mayur-bhargav/Innorik.git
-
+Start Frontend Server
           cd Innorik
 
           npm install
