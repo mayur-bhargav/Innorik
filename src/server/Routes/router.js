@@ -18,14 +18,7 @@ require("dotenv").config();
       return token;
     }
     
-    const corsOptions = {
-      origin: 'https://innoriknews.onrender.com',
-      credentials: true,
-      methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Add the required methods
-      allowedHeaders: ['Content-Type', 'Authorization'], // Add the required headers
-    };
-    
-    router.use(cors(corsOptions));
+    router.use(cors());
     router.post("/signup", async (req, res) => {
       const { name, email, password, cpassword } = req.body;
       

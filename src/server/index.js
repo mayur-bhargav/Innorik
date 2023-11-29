@@ -22,13 +22,7 @@ mongoose
     console.error("Error connecting to MongoDB:", error);
   });
 
-  const corsOptions = {
-    origin: 'https://innoriknews.onrender.com',
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-  };
-  app.use(cors(corsOptions));
+  app.use(cors());
 
 
 
