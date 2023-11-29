@@ -19,7 +19,7 @@ require("dotenv").config();
     }
     
     const corsOptions = {
-      origin: 'http://localhost:3000',
+      origin: 'https://innoriknews.onrender.com',
       credentials: true,
       methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Add the required methods
       allowedHeaders: ['Content-Type', 'Authorization'], // Add the required headers

@@ -14,7 +14,7 @@ const NewsFeed = ({ interests }) => {
   const [savedArticles, setSavedArticles] = useState([]);
   useEffect(() => {
     async function fetchNews() {
-      const apiKey = '3268c11c57a252ecd3cbf54d84b42909'; // Replace with your actual API key
+      const apiKey = '6627a809a3e42452afe607b2ec6ebcc6'; // Replace with your actual API key
       const url = `https://gnews.io/api/v4/search?q=example&lang=en&country=in&max=10&apikey=${apiKey}`;
 
       try {
