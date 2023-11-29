@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 import axios from "axios";
 import LoadingSpinner from "./loader";
-import { useNavigate } from "react-router-dom";
-import { Formik, Form, Field } from "formik";
-import { Stack, TextField, IconButton, InputAdornment } from "@mui/material";
+import {
+  Stack,
+  TextField,
+  IconButton,
+  InputAdornment,
+} from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { Icon } from "@iconify/react";
 import { motion } from "framer-motion";
-import * as Yup from "yup";
 import { toast, ToastContainer } from "react-toastify";
+import {  Link , useNavigate } from "react-router-dom";
 let easing = [0.6, -0.05, 0.01, 0.99];
 const animate = {
   opacity: 1,
@@ -21,30 +24,49 @@ const animate = {
 };
 
 const SignupForm = () => {
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    cpassword: "",
+  });
+
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = async (values) => {
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     setIsLoading(true);
     try {
       const response = await axios.post("http://localhost:5000/signup", {
-        name: values.firstName + " " + values.lastName,
-        email: values.email,
-        password: values.password,
-        cpassword: values.cpassword,
+        name: formData.firstName + " " + formData.lastName,
+        email: formData.email,
+        password: formData.password,
+        cpassword: formData.cpassword,
       });
 
       setIsLoading(false);
       console.log("Server response:", response.data);
       navigate("/login");
 
-      values.firstName = "";
-      values.lastName = "";
-      values.email = "";
-      values.password = "";
-      values.cpassword = "";
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+        cpassword: "",
+      });
       setError("");
     } catch (error) {
       if (error.response && error.response.status === 409) {
@@ -57,18 +79,6 @@ const SignupForm = () => {
       setIsLoading(false);
     }
   };
-
-  const SignupSchema = Yup.object().shape({
-    firstName: Yup.string().required("First name is required"),
-    lastName: Yup.string().required("Last name is required"),
-    email: Yup.string()
-      .email("Provide a valid email address")
-      .required("Email is required"),
-    password: Yup.string().required("Password is required"),
-    cpassword: Yup.string()
-      .oneOf([Yup.ref("password"), null], "Passwords must match")
-      .required("Confirm password is required"),
-  });
 
   return (
     <div>
@@ -84,122 +94,113 @@ const SignupForm = () => {
         pauseOnHover
         theme="light"
       />
-      <Formik
-        initialValues={{
-          firstName: "",
-          lastName: "",
-          email: "",
-          password: "",
-          cpassword: "",
-        }}
-        validationSchema={SignupSchema}
-        onSubmit={handleSubmit}
-      >
-        {({ errors, touched }) => (
-          <Form autoComplete="off" noValidate>
-            <Stack spacing={3}>
-              <Stack
-                component={motion.div}
-                initial={{ opacity: 0, y: 60 }}
-                animate={animate}
-                direction={{ xs: "column", sm: "row" }}
-                spacing={2}
-              >
-                <Field
-                  fullWidth
-                  label="First name"
-                  name="firstName"
-                  as={TextField}
-                  error={Boolean(touched.firstName && errors.firstName)}
-                  helperText={touched.firstName && errors.firstName}
-                />
+      <form autoComplete="off" noValidate onSubmit={handleSubmit}>
+        <Stack spacing={3}>
+          <Stack
+            component={motion.div}
+            initial={{ opacity: 0, y: 60 }}
+            animate={animate}
+            direction={{ xs: "column", sm: "row" }}
+            spacing={2}
+          >
+            <TextField
+              fullWidth
+              label="First name"
+              name="firstName"
+              value={formData.firstName}
+              onChange={handleInputChange}
+              error={Boolean(formData.firstName === "" && error)}
+              helperText={formData.firstName === "" && error}
+            />
 
-                <Field
-                  fullWidth
-                  label="Last name"
-                  name="lastName"
-                  as={TextField}
-                  error={Boolean(touched.lastName && errors.lastName)}
-                  helperText={touched.lastName && errors.lastName}
-                />
-              </Stack>
+            <TextField
+              fullWidth
+              label="Last name"
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleInputChange}
+              error={Boolean(formData.lastName === "" && error)}
+              helperText={formData.lastName === "" && error}
+            />
+          </Stack>
 
-              <Stack
-                spacing={3}
-                component={motion.div}
-                initial={{ opacity: 0, y: 40 }}
-                animate={animate}
-              >
-                <Field
-                  fullWidth
-                  autoComplete="username"
-                  type="email"
-                  label="Email address"
-                  name="email"
-                  as={TextField}
-                  error={Boolean(touched.email && errors.email)}
-                  helperText={touched.email && errors.email}
-                />
+          <Stack
+            spacing={3}
+            component={motion.div}
+            initial={{ opacity: 0, y: 40 }}
+            animate={animate}
+          >
+            <TextField
+              fullWidth
+              autoComplete="username"
+              type="email"
+              label="Email address"
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
+              error={Boolean(formData.email === "" && error)}
+              helperText={formData.email === "" && error}
+            />
 
-                <Field
-                  fullWidth
-                  autoComplete="new-password"
-                  type={showPassword ? "text" : "password"}
-                  label="Password"
-                  name="password"
-                  as={TextField}
-                  error={Boolean(touched.password && errors.password)}
-                  helperText={touched.password && errors.password}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton
-                          edge="end"
-                          onClick={() => setShowPassword((prev) => !prev)}
-                        >
-                          <Icon
-                            icon={
-                              showPassword ? "eva:eye-fill" : "eva:eye-off-fill"
-                            }
-                          />
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </Stack>
+            <TextField
+              fullWidth
+              autoComplete="new-password"
+              type={showPassword ? "text" : "password"}
+              label="Password"
+              name="password"
+              value={formData.password}
+              onChange={handleInputChange}
+              error={Boolean(formData.password === "" && error)}
+              helperText={formData.password === "" && error}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      edge="end"
+                      onClick={() => setShowPassword((prev) => !prev)}
+                    >
+                      <Icon
+                        icon={
+                          showPassword ? "eva:eye-fill" : "eva:eye-off-fill"
+                        }
+                      />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Stack>
 
-              <Stack
-                component={motion.div}
-                initial={{ opacity: 0, y: 20 }}
-                animate={animate}
-                style={{ marginBottom: "21px" }}
-              >
-                <Field
-                  fullWidth
-                  autoComplete="new-password"
-                  type="password"
-                  label="Confirm Password"
-                  name="cpassword"
-                  as={TextField}
-                  error={Boolean(touched.cpassword && errors.cpassword)}
-                  helperText={touched.cpassword && errors.cpassword}
-                />
+          <Stack
+            component={motion.div}
+            initial={{ opacity: 0, y: 20 }}
+            animate={animate}
+            style={{ marginBottom: "21px" }}
+          >
+            <TextField
+              fullWidth
+              autoComplete="new-password"
+              type="password"
+              label="Confirm Password"
+              name="cpassword"
+              value={formData.cpassword}
+              onChange={handleInputChange}
+              error={Boolean(formData.cpassword === "" && error)}
+              helperText={formData.cpassword === "" && error}
+            />
 
-                <LoadingButton
-                  style={{ marginTop: "20px" }}
-                  fullWidth
-                  size="large"
-                  type="submit"
-                  variant="contained"
-                >
-                  {isLoading ? <LoadingSpinner /> : "Sign up"}
-                </LoadingButton>
-              </Stack>
-            </Stack>
-          </Form>
-        )}
-      </Formik>
+            <LoadingButton
+              style={{ marginTop: "20px" }}
+              fullWidth
+              size="large"
+              type="submit"
+              variant="contained"
+            >
+              {isLoading ? <LoadingSpinner /> : "Sign up"}
+            </LoadingButton>
+          </Stack>
+        </Stack>
+      </form>
     </div>
   );
 };

@@ -358,3 +358,148 @@ nav .fa {
   background: #f44336;
   color: #fff;
 }
+.cart-container{
+  width: 50px;
+  height: 50px;
+  background-color: #ccc;
+  border-radius: 15px;
+}
+.image-carousel{
+  height: 250px;
+}
+.imag{
+  height: 250px;
+  width: 75%;
+  margin-left: 13%;
+  margin-top: 1%;
+   border-radius: 20px;
+}
+.butt{
+  background-color: transparent;
+  border: transparent;
+  font-size: 32px;
+  margin-left: 14%;
+  margin-top: 7.8%;
+  position: absolute;
+}
+.butt1{
+  background-color: transparent;
+  border: transparent;
+  font-size: 32px;
+  margin-left: -2%;
+  /* margin-right: 105%; */
+  margin-top: 7%;
+  position: absolute;
+}
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,800");
+
+/* * {
+  box-sizing: border-box;
+}
+
+body {
+  background: #f6f5f7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-family: "Montserrat", sans-serif;
+  height: 100vh;
+  margin: -20px 0 50px;
+} */
+.container1{
+  margin: 8% 0% 0% 30%;
+}
+@media only screen and (max-width: 768px) {
+  .container1{
+    margin: 10% 0% 0% 5%;
+  }
+  
+}
+@media only screen and (max-width: 350px) {
+  .container1{
+    margin: 0% 0% 0% 0%;
+  }
+  .tittle{
+    font-size: 10px;
+  }
+  .welco{
+    font-size: 12px;
+  }
+  .para1{
+    font-size: 9px;
+  }
+
+}
+
+@media (max-width: 700px) {
+  .nav-links {
+    position: absolute;
+    background: #f44336;
+    visibility: hidden;
+    height: 80vh;
+    width: 30%;
+    top: 0px; /* Adjust the top value to leave space for the header */
+    right: 0;
+    text-align: left;
+    z-index: 2;
+    transition: visibility 0.5s ease;
+  }
+
+  .nav-links.open {
+    visibility: visible;
+  }
+
+  nav .fa-bars {
+    display: block;
+    color: #fff;
+    margin: 10px;
+    font-size: 22px;
+    cursor: pointer;
+  }
+
+  .nav-links ul {
+    padding: 30px;
+  }
+  .nav-links ul li {
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 1.5s ease, transform 0.5s ease;
+  }
+
+  .nav-links.open ul li {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .logout{
+    text-decoration: none !important;
+  }
+}
+/* @media (min-width: 300px) {
+  .nav-links {
+    position: absolute;
+    background: #f44336;
+    visibility: hidden;
+    height: 80vh;
+    width: 50%;
+    top: 0px;
+    right: 0;
+    text-align: left;
+    z-index: 2;
+    transition: visibility 0.5s ease;
+  }
+} */
+@media (max-width: 500px) {
+  .nav-links {
+    position: absolute;
+    background: #f44336;
+    visibility: hidden;
+    height: 80vh;
+    width: 75%;
+    top: 0px;
+    right: 0;
+    text-align: left;
+    z-index: 2;
+    transition: visibility 0.5s ease;
+  }
+}
