@@ -28,7 +28,7 @@ const LoginForm = () => {
     setIsLoading(true);
     setError("");
     try {
-      const response = await axios.post("http://localhost:5000/login", {
+      const response = await axios.post("https://innoriknews.onrender.com/login", {
         email,
         password,
       });
@@ -80,7 +80,7 @@ const LoginForm = () => {
     e.preventDefault(); // Prevent the default form submission behavior
     setIsLoading(true);
     try {
-      const response = await axios.post("http://localhost:5000/signup", {
+      const response = await axios.post("https://innoriknews.onrender.com/signup", {
         name: formData.name,
         email: formData.email,
         password: formData.password,

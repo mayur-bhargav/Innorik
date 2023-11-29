@@ -28,7 +28,7 @@ function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/user", {
+        const response = await axios.get("https://innoriknews.onrender.com/user", {
           headers: {
             Authorization: token,
           },
@@ -52,7 +52,7 @@ function Home() {
 
   const handleLogout = async () => {
     try {
-      await axios.post("http://localhost:5000/logout");
+      await axios.post("https://innoriknews.onrender.com/logout");
       localStorage.removeItem("jwtToken");
       console.log("Logout successful");
       setIsAuthenticated(false);
