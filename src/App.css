@@ -351,7 +351,21 @@ nav .fa {
   }
 
 }
-
+@media only screen and (max-width: 330px){
+  .hero-btn1{
+    display: inline-block;
+  margin: 7px 2px;
+  text-decoration: none;
+  color: #f44336;
+  border: 1px solid #f44336;
+  padding: 8px 22px;
+  font-size: 14px;
+  background: transparent;
+  position: relative;
+  cursor: pointer;
+  transition: 0.3s;
+  }
+}
 
 .hero-btn1:hover {
   border: 1px solid #f44336;
@@ -407,30 +421,6 @@ body {
   height: 100vh;
   margin: -20px 0 50px;
 } */
-.container1{
-  margin: 8% 0% 0% 30%;
-}
-@media only screen and (max-width: 768px) {
-  .container1{
-    margin: 10% 0% 0% 5%;
-  }
-  
-}
-@media only screen and (max-width: 350px) {
-  .container1{
-    margin: 0% 0% 0% 0%;
-  }
-  .tittle{
-    font-size: 10px;
-  }
-  .welco{
-    font-size: 12px;
-  }
-  .para1{
-    font-size: 9px;
-  }
-
-}
 
 @media (max-width: 700px) {
   .nav-links {
@@ -502,4 +492,106 @@ body {
     z-index: 2;
     transition: visibility 0.5s ease;
   }
+}
+.container{
+display:flex;
+flex-direction: column;
+margin: auto;
+width: 600px;
+background: #fff;
+padding-bottom: 30px;
+}
+.header1{
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 9px;
+width: 100%;
+/* margin-top: 0px; */
+}
+.text{
+  color: #f00505;
+  font-size: 48px;
+  font-weight: 700;
+}
+.underline{
+  width: 61px; 
+  height: 6px;
+  background: #9d0000;
+  border-radius: 9px;
+}
+.inputs{
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+.input{
+  display: flex;
+  align-items: center;
+  margin: auto;
+  width: 480px;
+  height: 80px;
+  background: #eaeaea;
+}
+.input img{
+  margin : 0px 30px;
+}
+.input input {
+  height: 50px;
+  width: 400px;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #797979;
+  font-size: 19px;
+}
+.forgot-password{
+  padding-left: 62px;
+  margin-top: 27px;
+  color: #797979;
+  font-size: 18px;
+  
+}
+.forgot-password span{
+  color: #f00505;
+  cursor: pointer;
+}
+.submit-container{
+  display: flex;
+  gap: 30px;
+  margin: 15px auto;
+}
+.submit{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 220px;
+  height:59px;
+  color: #fff;
+  background-color: #f00505;
+  border-radius: 50px;
+  font-size: 19px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.gray{
+  background-color: #EAEAEA;
+  color: #676767;
+}
+.submit-button{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 220px;
+  height: 59px;
+  color: #fff;
+  background-color: #f00505;
+  border-radius: 50px;
+  font-size: 19px;
+  font-weight: 700;
+  cursor: pointer;
+  margin: auto;
+}
+.submit-container-button{
+  margin: 10px auto;
 }

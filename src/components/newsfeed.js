@@ -123,7 +123,7 @@ theme="light"
                 </button>
               )
             ) : (
-              <Link to="/login" className="hero-btn1" >
+              <Link to="/user" className="hero-btn1" >
                 Log in
               </Link>
             )}
@@ -136,5 +136,4 @@ theme="light"
     </div>
   );
 };
-
 export default NewsFeed;

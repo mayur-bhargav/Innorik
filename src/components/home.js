@@ -72,15 +72,21 @@ function Home() {
           <div className={`nav-links ${menuOpen ? "open" : ""}`}>
             <i className="fa fa-times" onClick={() => setMenuOpen(false)} />
             <ul>
-              <li>
-                <a href="/">HOME</a>
+            <Link to="/">
+              <li >
+                <a style={{color:"white"}}>HOME</a>
               </li>
-              <li>
-                <a href="/recommendations">Recommendations</a>
+              </Link>
+              <Link to="/recommendations">
+              <li >
+                <a style={{color:"white"}}>Recommendations</a>
               </li>
-              <li>
-                <a href="/saved">Saved Articles</a>
+              </Link>
+              <Link to="/saved">
+              <li >
+                <a style={{color:"white"}}>Saved Articles</a>
               </li>
+              </Link>
               {localStorage.getItem("jwtToken") ? (
                 <>
                   <li>
@@ -94,11 +100,6 @@ function Home() {
                   <Link to="/user">
                     <li>
                       <a className="logout">Login</a>
-                    </li>
-                  </Link>
-                  <Link to="/user">
-                    <li>
-                      <a className="logout">Register</a>
                     </li>
                   </Link>
                 </>
